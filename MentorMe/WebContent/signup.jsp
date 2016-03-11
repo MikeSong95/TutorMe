@@ -53,7 +53,6 @@
 				</div>
 				<br><br><br><br>
 			</div>
-			<form>
 			<div id="tutorForm" class="fadein" style="display:none">
 				<br>
 				<h1 align="center"> Registration Form </h1>
@@ -121,7 +120,6 @@
 				</div>
 				<br><br>
 			</div>
-			</form>
 			<div id="studentForm" class="fadein" style="display:none">
 				<br>
 				<h1 align="center"> Registration Form </h1>
