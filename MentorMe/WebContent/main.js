@@ -16,10 +16,11 @@ $.ajax({
     datatype: 'JSON',
     headers: {
       Accept:"application/json",
-      "Access-Control-Allow-Origin": "*"
+      "Access-Control-Allow-Origin": "*",
+      Name: "Jason"
     },
     success: function(data) {
-      
+
       element.append("<br><h2>Message Received: "+ JSON.stringify(data)+ " + YAY!");
 
     },
