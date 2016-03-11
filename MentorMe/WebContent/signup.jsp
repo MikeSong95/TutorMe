@@ -53,17 +53,18 @@
 				</div>
 				<br><br><br><br>
 			</div>
+			<form>
 			<div id="tutorForm" class="fadein" style="display:none">
 				<br>
 				<h1 align="center"> Registration Form </h1>
 				<div class="col-sm-4" align="center">
-					<p> First Name: </p> <input type="text" /> 
+					<p> First Name: </p> <input type="text" id="tutorFirstName"/> 
 				</div>
 				<div class="col-sm-4" align="center">
-					<p> Last Name: </p>	<input type="text" /> 
+					<p> Last Name: </p>	<input type="text" id="tutorLastName"/> 
 				</div>
 				<div class="col-sm-4" align="center">
-					<p> Email: </p> <input type="text">
+					<p> Email: </p> <input type="text" id="tutorEmail">
 				</div>
 				
 				<div class="col-sm-4" align="center">
@@ -108,41 +109,41 @@
 					</div>
 				</div>
 				<div class="col-sm-6" align="center">
-					<p> Password: </p>	<input type="password" /> 
+					<p> Password: </p>	<input type="password" id="tutorPassword"/> 
 				</div>
 				<div class="col-sm-6" align="center">
-					<p> Confirm Password: </p>	<input type="password" /> 
+					<p> Confirm Password: </p>	<input type="password" id="tutorConfirmPassword"/> 
 					<br><br><br><br>
 				</div>
 				
 				<div align="center">
-					<button onclick="">Submit</button>
+					<button onclick="toCoursesPage_tutor()" type="submit">Submit</button>
 				</div>
 				<br><br>
 			</div>
-			
+			</form>
 			<div id="studentForm" class="fadein" style="display:none">
 				<br>
 				<h1 align="center"> Registration Form </h1>
 				<div class="col-sm-4" align="center">
-					<p> First Name: </p> <input type="text" /> 
+					<p> First Name: </p> <input type="text" id="studentFirstName"/> 
 				</div>
 				<div class="col-sm-4" align="center">
-					<p> Last Name: </p>	<input type="text" /> 
+					<p> Last Name: </p>	<input type="text" id="studentLastName"/> 
 				</div>
 				<div class="col-sm-4" align="center">
-					<p> Email: </p> <input type="text">
+					<p> Email: </p> <input type="text" id="studentEmail">
 				</div>
 				<div class="col-sm-6" align="center">
-					<p> Password: </p>	<input type="password" /> 
+					<p> Password: </p>	<input type="password" id="studentPassword" /> 
 				</div>
 				<div class="col-sm-6" align="center">
-					<p> Confirm Password: </p>	<input type="password" /> 
+					<p> Confirm Password: </p>	<input type="password" id="studentConfirmPassword"/> 
 					<br><br><br><br>
 				</div>
 				
 				<div align="center">
-					<button onclick="">Submit</button>
+					<button onclick="toCoursesPage_student()">Submit</button>
 				</div>
 				<br><br>
 			</div>
