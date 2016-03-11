@@ -41,6 +41,7 @@ function toCoursesPage_student() {
 	}
 }
 
+// Error handling for student form
 function isFormValid_student() {
 	var firstName = $('#studentFirstName').val();
 	var lastName = $('#studentLastName').val();
@@ -50,9 +51,28 @@ function isFormValid_student() {
 	
 	if (firstName && lastName && email && password) {
 		if (validEmail(email)) {
-			if (isUniqueEmail(email)) {
+			if (!isUniqueEmail(email)) {
 				if (confirmPasswordMatches(password, confirmPassword)) {
-					// Call to student signup servlet to add student to database
+					var data = {
+						type: "student",
+						firstName: firstName,
+						lastName: lastName,
+						email: email,
+						password: password
+					};
+					alert("Making AJAX call");
+					$.ajax({
+						type: "GET",
+						url: "SignupServlet",
+						data: data,
+						dataType: "String",
+						success: function() {
+							alert("AJAX call successful!");
+							Session["user"] = email;
+						}
+					});// Call to student signup servlet to add student to database
+					
+					return true;
 				} else {
 					alert("The passwords do not match. Please enter again.");
 				}
