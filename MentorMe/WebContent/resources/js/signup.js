@@ -51,33 +51,26 @@ function isFormValid_student() {
 	
 	if (firstName && lastName && email && password) {
 		if (validEmail(email)) {
-			if (!isUniqueEmail(email)) {
-				if (confirmPasswordMatches(password, confirmPassword)) {
-					var data = {
-						type: "student",
-						firstName: firstName,
-						lastName: lastName,
-						email: email,
-						password: password
-					};
-					alert("Making AJAX call");
-					$.ajax({
-						type: "GET",
-						url: "SignupServlet",
-						data: data,
-						dataType: "String",
-						success: function() {
-							alert("AJAX call successful!");
-							Session["user"] = email;
-						}
-					});// Call to student signup servlet to add student to database
-					
-					return true;
-				} else {
-					alert("The passwords do not match. Please enter again.");
-				}
+			if (confirmPasswordMatches(password, confirmPassword)) {
+				var data = {
+					type: "student",
+					firstName: firstName,
+					lastName: lastName,
+					email: email,
+					password: password
+				};
+				$.ajax({
+					type: "POST",
+					url: "SignupServlet",
+					data: data,
+					success: function() {
+						Session["user"] = email;
+					}
+				});
+				
+				return true;
 			} else {
-				alert("An account with this email has already been created.");
+				alert("The passwords do not match. Please enter again.");
 			}
 		} else {
 			alert("The email you have entered is not valid.");
@@ -99,14 +92,29 @@ function isFormValid_tutor() {
 	
 	if (firstName && lastName && email && password && degree && school && program) {
 		if (validEmail(email)) {
-			if (isUniqueEmail(email)) {
-				if (confirmPasswordMatches(password, confirmPassword)) {
-					// Call to tutor signup servlet to add tutor to database
-				} else {
-					alert("The passwords do not match. Please enter again.");
-				}
+			if (confirmPasswordMatches(password, confirmPassword)) {
+				var data = {
+					type: "tutor",
+					firstName: firstName,
+					lastName: lastName,
+					email: email,
+					password: password,
+					degree: degree,
+					school: school,
+					program: program
+				};
+				$.ajax({
+					type: "POST",
+					url: "SignupServlet",
+					data: data,
+					success: function() {
+						Session["user"] = email;
+					}
+				});			
+					
+				return true
 			} else {
-				alert("An account with this email has already been created.");
+				alert("The passwords do not match. Please enter again.");
 			}
 		} else {
 			alert("The email you have entered is not valid.");
@@ -119,10 +127,6 @@ function isFormValid_tutor() {
 function validEmail (email) {	
 	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
-}
-
-function isUniqueEmail(email) {
-	// Call to signup servlet to see if email exists in database
 }
 
 function confirmPasswordMatches (password, confirmPassword) {
