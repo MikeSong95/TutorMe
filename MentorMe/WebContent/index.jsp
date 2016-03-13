@@ -31,9 +31,9 @@
 			<div class="container-fluid">
  				<ul class="nav navbar-nav">
        				<li class="active"><a href="index.jsp">Home</a></li>
-       				<li><a href="#">About</a></li>
-       				<li><a href="#">FAQs</a></li>
-       				<li><a href="#">Contact Us</a></li>
+       				<li><a href="about.html">About</a></li>
+       				<li><a href="faq.html">FAQs</a></li>
+       				<li><a href="contact.html">Contact Us</a></li>
       			</ul>
       			<ul class="nav navbar-nav navbar-right">
        				<li><a>Sign Up</a></li>
