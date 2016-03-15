@@ -2,7 +2,9 @@ package com.user;
 
 import java.util.HashMap;
 
-public class User {
+public abstract class User {
+
+	
 
 	
 	protected String firstName;
@@ -11,16 +13,15 @@ public class User {
 	protected String password;
 	
 	
-	public User(HashMap user){
+	public User(HashMap<String, String> user){
 		
-		this.firstName=(String) user.get("firstName");
-		this.lastName= (String) user.get("lastName");
-		this.email= (String) user.get("email");
-		this.password=(String) user.get("password");
+		this.firstName=user.get("firstName");
+		this.lastName=  user.get("lastName");
+		this.email= user.get("email");
+		this.password= user.get("password");
 		
 	}
-	
-	
+
 
 	public String getEmail() {
 		return email;
@@ -48,6 +49,9 @@ public class User {
 	public void setFirst(String first) {
 		this.firstName = first;
 	}
+	
+	
+	abstract void updateInfo(HashMap<String, String> user);
 	
 	
 }
