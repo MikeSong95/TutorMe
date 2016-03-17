@@ -1,11 +1,10 @@
-package backend;
+package com.control;
 
 import java.util.HashMap;
 
-import com.user.Student;
-import com.user.Tutor;
+import com.user.*;
 
-import backend.DatabaseControl;
+import com.backend.*;
 
 public class UserController {
 	private static UserController instance =null;
@@ -26,16 +25,17 @@ public class UserController {
 	
 	
 	public static UserController getInstance() {
-	      if(instance == null) {
-	         instance = new UserController();
-	      }
-	      return instance;
+		  if(instance == null) {
+		     instance = new UserController();
+		  }
+		  
+		  return instance;
 	}
 	
 	private UserController(){
 		TutorMap = new HashMap<String, Tutor>();
-		StudentMap = new HashMap<String, StudentMap>();
-		UserCount =0;
+		StudentMap = new HashMap<String, Student>();
+		UserCount = 0;
 	}
 	
 	public boolean createUser(String email, String type, HashMap<String, String> Infomations){
@@ -45,9 +45,11 @@ public class UserController {
 		}
 		
 		if (TutorID.equals(type))
-			return (Boolean)CreateTutor(email, Infomations);
+			return (Boolean) createTutor(email, Infomations);
 		else if(StudentID.equals(type))
 			return (Boolean) CreateStudent(email, Infomations);
+		else 
+			return false;
 	}
 	
 	public boolean createTutor(String email, HashMap<String, String> Informations){
@@ -57,6 +59,7 @@ public class UserController {
 		Tutor newTutor = new Tutor(Informations);
 		TutorMap.put(email, newTutor);
 		UserCount +=1;
+		return true;
 		}catch(Exception e1){
 			return false;
 		}
@@ -64,12 +67,15 @@ public class UserController {
 	
 	public boolean CreateStudent(String email, HashMap<String, String> Informations){
 		try{
-		if (StudentMap.containsKey(email) || DatabaseControl.getInstance().checkExistence(StudentTable, email))
-			return false;
-		Student newStudent = new Student(Informations);
-		StudentMap.put(email, newStudent);
-		UserCount += 1;
-		}catch(Exception e1){
+			if (StudentMap.containsKey(email) || DatabaseControl.getInstance().checkExistence(StudentTable, email))
+				return false;
+			
+			Student newStudent = new Student(Informations);
+			StudentMap.put(email, newStudent);
+			UserCount += 1;
+			
+			return true;
+		} catch(Exception e1) {
 			return false;
 		}
 	}
@@ -83,11 +89,11 @@ public class UserController {
 			//this methond takes a complete set tutor information, and modify the target tutor accordingly
 			targetTutor.modify(Informations);
 		}
-		
 	}
 	
-	public ModifyStudent(String email, HashMap<String, String> Informations){
-		Student targetTutor = StudentMap.get(email);
+	public boolean ModifyStudent(String email, HashMap<String, String> Informations){
+		Student targetStudent = StudentMap.get(email);
+		
 		if (targetStudent == null){
 				targetStudent = new Student(Informations);
 		}

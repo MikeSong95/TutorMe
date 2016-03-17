@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,7 +15,7 @@
 	    <script src="<c:url value="./resources/js/bootstrap.min.js" />"></script>
 	    
 	    <!-- JS -->
-		<script src="<c:url value="index.js" />"></script>
+		<script src="<c:url value="./resources/js/index.js" />"></script>
 		
 		<!-- CSS -->
 		<link href="<c:url value="./resources/css/index.css" />" rel="stylesheet">
@@ -23,10 +23,11 @@
 		<title>TutorMe</title>
 	</head>
 	<body>
+		<!-- Background Image -->
 		<div id="background">
   			<img class="stretch" src="./resources/images/splash_img.jpg" alt="background">
 		</div>
-		<div class="navbarFont">
+		<!-- Navbar -->
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
  				<ul class="nav navbar-nav">
@@ -36,15 +37,15 @@
        				<li><a href="contact.html">Contact Us</a></li>
       			</ul>
       			<ul class="nav navbar-nav navbar-right">
-       				<li><a>Sign Up</a></li>
+       				<li><a href="signup.jsp">Sign Up</a></li>
        				<li><a href="#">Log In</a></li>
       			</ul>
 	     	</div>
 		</nav>
-		</div>
 		<div class="jumbotron">
  			<h1 align="center">Welcome to TutorMe!</h1>
  			<h2 align="center"> TutorMe is an online platform that connects academically motivated students with highly qualified tutors.</h2>
+ 			<br><br>
  			<div class="row">
 				<div class="col-sm-6 col-md-4">
 					<div class="transbox">
@@ -69,8 +70,9 @@
 				</div>
 			</div>
 		</div>
+		<!-- Call function to signup.jsp -->
 		<div align="center">
- 			<button onclick="toSignUpPage()"> Sign Up </button>
+ 			<button onclick="toSignUpPage()"> Sign Up </button> 
 		</div>
 	</body>
 </html>
