@@ -2,6 +2,9 @@ package backend;
 
 import java.util.HashMap;
 
+import com.user.Student;
+import com.user.Tutor;
+
 import backend.DatabaseControl;
 
 public class UserController {
