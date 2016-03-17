@@ -51,7 +51,7 @@ public abstract class User {
 	}
 	
 	
-	abstract void updateInfo(HashMap<String, String> user);
+	abstract void updateInfo(HashMap<String, String> user, String[] courses);
 	
 	
 }

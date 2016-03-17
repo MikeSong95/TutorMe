@@ -11,8 +11,24 @@ public class Student extends User {
 	public Student(HashMap<String, String> user) {
 		
 		super(user);
+		
+		this.schoolAttending=user.get("schoolAttending");
+		this.programAttending= user.get("programAttending");
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	
+    public void addCourses(String [] courses){
+		
+		if(courses.length>5)
+			return;
+		
+		this.coursesLearning=courses;	
+
+		
+	}
+	
 
 	public String getSchoolAttending() {
 		return schoolAttending;
@@ -39,7 +55,17 @@ public class Student extends User {
 	}
 
 	@Override
-	void updateInfo(HashMap<String, String> user) {
+	public
+	void updateInfo(HashMap<String, String> user, String[] courses) {
+		
+		this.firstName=user.get("firstName");
+		this.lastName=  user.get("lastName");
+		this.email= user.get("email");
+		this.password= user.get("password");
+		this.schoolAttending=user.get("schoolAttending");
+		this.programAttending= user.get("programAttending");
+		addCourses(courses);
+		
 		// TODO Auto-generated method stub
 		
 	}

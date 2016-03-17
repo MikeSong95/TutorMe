@@ -38,25 +38,26 @@ public class UserController {
 		UserCount = 0;
 	}
 	
-	public boolean createUser(String email, String type, HashMap<String, String> Infomations){
+	public boolean createUser(String email, String type, HashMap<String, String> Infomations, String[] courses){
 		//check if the infomation input is valid or not
 		if (Infomations.keySet().size()<3){
 			return false;
 		}
 		
 		if (TutorID.equals(type))
-			return (Boolean) createTutor(email, Infomations);
+			return (Boolean) createTutor(email, Infomations, courses);
 		else if(StudentID.equals(type))
-			return (Boolean) CreateStudent(email, Infomations);
+			return (Boolean) CreateStudent(email, Infomations, courses);
 		else 
 			return false;
 	}
 	
-	public boolean createTutor(String email, HashMap<String, String> Informations){
+	public boolean createTutor(String email, HashMap<String, String> Informations, String[] courses){
 		try{
 		if (TutorMap.containsKey(email) || DatabaseControl.getInstance().checkExistence(TutorTable, email))
 			return false;
 		Tutor newTutor = new Tutor(Informations);
+		newTutor.addCourses(courses);
 		TutorMap.put(email, newTutor);
 		UserCount +=1;
 		return true;
@@ -65,12 +66,13 @@ public class UserController {
 		}
 	}
 	
-	public boolean CreateStudent(String email, HashMap<String, String> Informations){
+	public boolean CreateStudent(String email, HashMap<String, String> Informations, String[] courses){
 		try{
 			if (StudentMap.containsKey(email) || DatabaseControl.getInstance().checkExistence(StudentTable, email))
 				return false;
 			
 			Student newStudent = new Student(Informations);
+			newStudent.addCourses(courses);
 			StudentMap.put(email, newStudent);
 			UserCount += 1;
 			
@@ -80,18 +82,18 @@ public class UserController {
 		}
 	}
 	
-	public void ModifyTutor(String email, HashMap<String, String> Informations){
+	public void ModifyTutor(String email, HashMap<String, String> Informations, String [] courses){
 		Tutor targetTutor = TutorMap.get(email);
 		if (targetTutor == null){
 				targetTutor = new Tutor(Informations);
 		}
 		else{
 			//this methond takes a complete set tutor information, and modify the target tutor accordingly
-			targetTutor.modify(Informations);
+			targetTutor.updateInfo(Informations, courses );
 		}
 	}
 	
-	public boolean ModifyStudent(String email, HashMap<String, String> Informations){
+	public boolean ModifyStudent(String email, HashMap<String, String> Informations, String [] courses){
 		Student targetStudent = StudentMap.get(email);
 		
 		if (targetStudent == null){
@@ -99,8 +101,9 @@ public class UserController {
 		}
 		else{
 			//this methond takes a complete set Student information, and modify the target Student accordingly
-			targetStudent.modify(Informations);
+			targetStudent.updateInfo(Informations, courses);
 		}
+		return true;
 		
 	}
 	
