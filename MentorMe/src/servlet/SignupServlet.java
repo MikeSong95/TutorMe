@@ -3,11 +3,15 @@ package servlet;
 import java.io.IOException;
 import java.util.HashMap;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.control.*;
 
 /**
  * Servlet implementation class SignupServlet
@@ -35,8 +39,8 @@ public class SignupServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Hashmap of student and tutor data
-		HashMap studentInfo = new HashMap(); 
-		HashMap tutorInfo = new HashMap();
+		HashMap<String, String> studentInfo = new HashMap<String, String>(); 
+		HashMap<String, String> tutorInfo = new HashMap<String, String>();
 		
 		// Either student or tutor
 		String type = request.getParameter("type");
@@ -50,12 +54,20 @@ public class SignupServlet extends HttpServlet {
 		// Parameters specific to tutors
 		String school, degree, program;
 		
+		// DB Controller
+		UserController userController = UserController.getInstance();
+		
+		// Success
+		boolean success;
+		
 		if (type.equals("student")) {
 			// Aggregte information into hashmap
 			studentInfo.put("firstName", firstName);
 			studentInfo.put("lastName", lastName);
 			studentInfo.put("email", email);
 			studentInfo.put("password", password);
+			
+			success = userController.CreateStudent(email, studentInfo);
 		} else {
 			// Get parameters specific to tutors
 			school = request.getParameter("school");
@@ -70,6 +82,18 @@ public class SignupServlet extends HttpServlet {
 			tutorInfo.put("school", school);
 			tutorInfo.put("degree", degree);
 			tutorInfo.put("program", program);
+			
+			success = userController.createTutor(email, tutorInfo);
+		}
+		
+		if (success) {
+			response.setContentType("text/html;charset=UTF-8");
+			HttpSession session = request.getSession();
+			session.setAttribute("email", email);
+			response.getWriter().print("success");
+		} else {
+			response.setContentType("text/html;charset=UTF-8");
+			response.getWriter().print("error");
 		}
 	}
 
