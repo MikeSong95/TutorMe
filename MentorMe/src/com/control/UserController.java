@@ -38,48 +38,51 @@ public class UserController {
 		UserCount = 0;
 	}
 	
-	public boolean createUser(String email, String type, HashMap<String, String> Infomations, String[] courses){
+	public boolean createUser(String email, String type, HashMap<String, String> Infomations){
 		//check if the infomation input is valid or not
 		if (Infomations.keySet().size()<3){
 			return false;
 		}
 		
 		if (TutorID.equals(type))
-			return (Boolean) createTutor(email, Infomations, courses);
+			return (Boolean) createTutor(email, Infomations);
 		else if(StudentID.equals(type))
-			return (Boolean) CreateStudent(email, Infomations, courses);
+			return (Boolean) CreateStudent(email, Infomations);
 		else 
 			return false;
 	}
 	
-	public boolean createTutor(String email, HashMap<String, String> Informations, String[] courses){
-		try{
+	public boolean createTutor(String email, HashMap<String, String> Informations){
+		return true;
+		
+		/*try{
 		if (TutorMap.containsKey(email) || DatabaseControl.getInstance().checkExistence(TutorTable, email))
 			return false;
 		Tutor newTutor = new Tutor(Informations);
-		newTutor.addCourses(courses);
+		
 		TutorMap.put(email, newTutor);
 		UserCount +=1;
 		return true;
 		}catch(Exception e1){
 			return false;
-		}
+		}*/
 	}
 	
-	public boolean CreateStudent(String email, HashMap<String, String> Informations, String[] courses){
+	public boolean CreateStudent(String email, HashMap<String, String> Informations){
+		return true;
+		/*
 		try{
 			if (StudentMap.containsKey(email) || DatabaseControl.getInstance().checkExistence(StudentTable, email))
 				return false;
 			
 			Student newStudent = new Student(Informations);
-			newStudent.addCourses(courses);
 			StudentMap.put(email, newStudent);
 			UserCount += 1;
 			
 			return true;
 		} catch(Exception e1) {
 			return false;
-		}
+		}*/
 	}
 	
 	public void ModifyTutor(String email, HashMap<String, String> Informations, String [] courses){
@@ -93,7 +96,7 @@ public class UserController {
 		}
 	}
 	
-	public boolean ModifyStudent(String email, HashMap<String, String> Informations, String [] courses){
+	public boolean ModifyStudent(String email, HashMap<String, String> Informations, String[] courses){
 		Student targetStudent = StudentMap.get(email);
 		
 		if (targetStudent == null){

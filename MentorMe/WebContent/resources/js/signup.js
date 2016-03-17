@@ -30,15 +30,11 @@ $(function(){
 });
 
 function toCoursesPage_tutor() {
-	if (isFormValid_tutor()) {
-		window.location.href="courses.jsp";
-	}
+	isFormValid_tutor();
 }
 
 function toCoursesPage_student() {
-	if (isFormValid_student()) {
-		window.location.href="courses.jsp";
-	}
+	isFormValid_student();
 }
 
 // Error handling for student form
@@ -48,6 +44,7 @@ function isFormValid_student() {
 	var email = $('#studentEmail').val();
 	var password = $('#studentPassword').val();
 	var confirmPassword = $('#studentConfirmPassword').val();
+	var isSuccess;
 	
 	if (firstName && lastName && email && password) {
 		if (validEmail(email)) {
@@ -63,12 +60,14 @@ function isFormValid_student() {
 					type: "POST",
 					url: "SignupServlet",
 					data: data,
-					success: function() {
-						Session["user"] = email;
+					success: function(success) {
+						if (success === "success") {
+							window.location.href="courses.jsp";
+						} else {
+							alert("An acocunt with that email already exists.")
+						}
 					}
 				});
-				
-				return true;
 			} else {
 				alert("The passwords do not match. Please enter again.");
 			}
@@ -107,12 +106,14 @@ function isFormValid_tutor() {
 					type: "POST",
 					url: "SignupServlet",
 					data: data,
-					success: function() {
-						Session["user"] = email;
+					success: function(success) {
+						if (success === "success") {
+							window.location.href="courses.jsp";
+						} else {
+							alert("An acocunt with that email already exists.")
+						}
 					}
 				});			
-					
-				return true
 			} else {
 				alert("The passwords do not match. Please enter again.");
 			}
