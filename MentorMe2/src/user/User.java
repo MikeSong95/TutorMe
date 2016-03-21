@@ -20,6 +20,7 @@ public abstract class User {
 		this.email= user.get("email");
 		this.password= user.get("password");
 		
+		
 	}
 
 
@@ -51,7 +52,7 @@ public abstract class User {
 	}
 	
 	
-	abstract void updateInfo(HashMap<String, String> user, String[] courses);
+	abstract void updateInfo(HashMap<String, String> user);
 	
 	
 }
