@@ -90,6 +90,7 @@ public class SignupServlet extends HttpServlet {
 			response.setContentType("text/html;charset=UTF-8");
 			HttpSession session = request.getSession();
 			session.setAttribute("email", email);
+			session.setAttribute("type", type);
 			response.getWriter().print("success");
 		} else {
 			response.setContentType("text/html;charset=UTF-8");

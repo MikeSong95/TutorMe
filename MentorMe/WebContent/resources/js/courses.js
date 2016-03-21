@@ -34,7 +34,7 @@ function programs(school) {
 	
 	$('#uoft_compsci').removeAttr('class');
 	$('#uoft_compeng').removeAttr('class');
-	$('#western_' + program).removeAttr('class');
+	$('#western_chemistry').removeAttr('class');
 }
 
 function uoftCourses(program) {
@@ -127,7 +127,27 @@ function submit() {
 	if (schoolAttending !== undefined) {
 		if (programStudy !== undefined) {
 			if (courseCounter !== 0) {
+				var data = {
+					school: schoolAttending,
+					program: programStudy,
+					course1: courses[0],
+					course2: courses[1],
+					course3: courses[2],
+					course4: courses[3]
+				};
 				
+				$.ajax ({
+					type: "post",
+					url: "CoursesServlet",
+					data: data,
+					success: function(success) {
+						if (success === "success") {
+							window.location.href="courses.jsp";
+						} else {
+							alert("An error has occurred.")
+						}
+					}
+				});
 			} else {
 				alert("Please select at least one course.");
 			}
