@@ -9,6 +9,7 @@ import com.ibm.nosql.json.util.JSON;
 
 
 import admin.ServerProperties;
+import user.Student;
 
 
 public class DatabaseControl
@@ -34,7 +35,7 @@ public class DatabaseControl
 	
 	
 	private DatabaseControl(){
-		/**
+		
 		String VCAP_SERVICES = System.getenv("VCAP_SERVICES");
 		if (VCAP_SERVICES != null) {
 			// parse the VCAP JSON structure
@@ -62,24 +63,29 @@ public class DatabaseControl
 			password = (String) obj.get("password");
 			url = (String) obj.get("jdbcurl");
 		}
-		*/
+		
 	}
 	
 	
 	
 	public  Connection getConnection() throws ClassNotFoundException, SQLException{
 		//loading drivers for mysql
+		Connection con = null;
 		try{
-		Class.forName("com.ibm.db2.jcc");
-		Connection con = DriverManager.getConnection(url, user ,password);
-		return con;
+			Class.forName("com.ibm.db2.jcc.DB2Driver");
+			 con = DriverManager.getConnection(url, user ,password);
+			return con;
 		}catch(Exception e1){
-		Class.forName("com.mysql.jdbc.Driver");
-		return DriverManager.getConnection
+			  e1.printStackTrace();
+			  /**
+			  Class.forName("com.mysql.jdbc.Driver");
+			  return DriverManager.getConnection
                 ("jdbc:mysql://" + ServerProperties.domain
                 		+ ":"+ServerProperties.port + "/"+ ServerProperties.mainDataBase
                 		,ServerProperties.userName,ServerProperties.password);
+                		*/
 		}
+		return con;
 		
 		
 		
@@ -119,7 +125,7 @@ public class DatabaseControl
       try{
 
     	 Connection con= getConnection();
-    	 String query = "SELECT * from $tableName where email = ?";
+    	 String query = "SELECT * from $tableName where EMAIL = ?";
          PreparedStatement ps =con.prepareStatement(
         		 query.replace("$tableName", table));
          ps.setString(1, email);
@@ -132,7 +138,55 @@ public class DatabaseControl
       }
          return st;                 
   }   
-     
+     public void updateStudent(String table, Student student){
+    	 try {
+			Connection con= getConnection();
+			//if key exists
+			if (checkExistence(table, student.getEmail())){
+				String query = "UPDATE $tableName SET"
+						+ "COURSE_ONE=?, COURSE_TWO=?, COURSE_THREE=?,"
+						+ "COURSE_FOUR=?, FIRSTNAME=?, LASTNAME =?,"
+						+ "PASSWORD=?, PROGRAM=?, SCHOOL=?  WHERE EMAIL = ?";
+				PreparedStatement ps =con.prepareStatement(
+		        		 query.replace("$tableName", table));
+				ps.setString(1, student.getCourse1());
+				ps.setString(2, student.getCourse2());
+				ps.setString(3, student.getCourse3());
+				ps.setString(4, student.getCourse4());
+				ps.setString(5, student.getFirst());
+				ps.setString(6, student.getLast());
+				ps.setString(7, student.getPassword());
+				ps.setString(8, student.getProgramAttending());
+				ps.setString(9, student.getSchoolAttending());
+				ps.setString(10, student.getEmail());
+				ps.executeUpdate();
+			}else{
+				String query = "INSERT INTO $tableName "
+						+ "(COURSE_ONE, COURSE_TWO, COURSE_THREE,"
+						+ " COURSE_FOUR, FIRSTNAME, LASTNAME,"
+						+ "PASSWORD, PROGRAM, SCHOOL, EMAIL) VALUES"
+						+ "(?,?,?,?,?,?,?,?,?,?)";
+				PreparedStatement ps =con.prepareStatement(
+		        		 query.replace("$tableName", table));
+				ps.setString(1, student.getCourse1());
+				ps.setString(2, student.getCourse2());
+				ps.setString(3, student.getCourse3());
+				ps.setString(4, student.getCourse4());
+				ps.setString(5, student.getFirst());
+				ps.setString(6, student.getLast());
+				ps.setString(7, student.getPassword());
+				ps.setString(8, student.getProgramAttending());
+				ps.setString(9, student.getSchoolAttending());
+				ps.setString(10, student.getEmail());
+				String result = ps.toString();
+				ps.executeUpdate();
+			}
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+     }
      public  ResultSet GetAllUsers() 
      {
       try{

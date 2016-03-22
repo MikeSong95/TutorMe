@@ -12,8 +12,8 @@ public class UserController {
 	
 	public static String TutorID = "tutor.type";
 	public static String StudentID = "student.type";
-	public static String StudentTable = "Student";
-	public static String TutorTable = "Tutor";
+	public static String StudentTable = "STUDENT";
+	public static String TutorTable = "TUTOR";
 	
 	//maps to keep track of all local users in jvm
 	public static HashMap<String, Tutor> TutorMap;
@@ -85,18 +85,18 @@ public class UserController {
 		}
 	}
 	
-	public void ModifyTutor(String email, HashMap<String, String> Informations, String [] courses){
+	public void ModifyTutor(String email, HashMap<String, String> Informations){
 		Tutor targetTutor = TutorMap.get(email);
 		if (targetTutor == null){
 				targetTutor = new Tutor(Informations);
 		}
 		else{
 			//this methond takes a complete set tutor information, and modify the target tutor accordingly
-			targetTutor.updateInfo(Informations, courses );
+			targetTutor.updateInfo(Informations);
 		}
 	}
 	
-	public boolean ModifyStudent(String email, HashMap<String, String> Informations, String[] courses){
+	public boolean ModifyStudent(String email, HashMap<String, String> Informations){
 		Student targetStudent = StudentMap.get(email);
 		
 		if (targetStudent == null){
@@ -104,8 +104,9 @@ public class UserController {
 		}
 		else{
 			//this methond takes a complete set Student information, and modify the target Student accordingly
-			targetStudent.updateInfo(Informations, courses);
+			targetStudent.updateInfo(Informations);
 		}
+		DatabaseControl.getInstance().updateStudent(StudentTable, targetStudent);
 		return true;
 		
 	}

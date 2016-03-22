@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import control.*;
+
+import control.UserController;
 
 /**
  * Servlet implementation class SignupServlet
@@ -90,6 +91,7 @@ public class SignupServlet extends HttpServlet {
 			response.setContentType("text/html;charset=UTF-8");
 			HttpSession session = request.getSession();
 			session.setAttribute("email", email);
+			session.setAttribute("type", type);
 			response.getWriter().print("success");
 		} else {
 			response.setContentType("text/html;charset=UTF-8");
