@@ -1,6 +1,7 @@
 package backend;
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.Set;
 
 import com.ibm.nosql.json.api.BasicDBList;
@@ -10,6 +11,7 @@ import com.ibm.nosql.json.util.JSON;
 
 //import admin.ServerProperties;
 import user.Student;
+import user.Tutor;
 
 
 public class DatabaseControl
@@ -138,6 +140,78 @@ public class DatabaseControl
       }
          return st;                 
   }   
+     
+     
+     public Student getStudent(String table, String email){
+    	  try{
+
+    	    	 Connection con= getConnection();
+    	    	 String query = "SELECT * from $tableName where EMAIL = ?";
+    	         PreparedStatement ps =con.prepareStatement(
+    	        		 query.replace("$tableName", table));
+    	         ps.setString(1, email);
+    	         ResultSet rs =ps.executeQuery();
+    	         if (rs.next()){
+    	        	 HashMap<String,String> studentInfo = new HashMap<String,String>();
+    	        	 studentInfo.put("firstName", rs.getString("FIRSTNAME"));
+    	        	 studentInfo.put("lastName", rs.getString("LASTNAME"));
+    	        	 studentInfo.put("email", email);
+    	        	 studentInfo.put("password", rs.getString("PASSWORD"));
+    	        	 studentInfo.put("course1", rs.getString("COURSE_ONE"));
+    	        	 studentInfo.put("course2", rs.getString("COURSE_TWO"));
+    	        	 studentInfo.put("course3", rs.getString("COURSE_THREE"));
+    	        	 studentInfo.put("course4", rs.getString("COURSE_FOUR"));
+    	        	 studentInfo.put("school", rs.getString("SCHOOL"));
+    	        	 studentInfo.put("program", rs.getString("PROGRAM"));
+    	        	 Student targetStudent = new Student(studentInfo);
+    	        	 targetStudent.updateInfo(studentInfo);
+    	        	 return targetStudent;
+    	         }
+    	        
+    	      }catch(Exception e)
+    	      {
+    	          e.printStackTrace();
+    	      }
+		return null;
+ 			
+     }
+     
+     public Tutor getTutor(String table, String email){
+   	  try{
+
+   	    	 Connection con= getConnection();
+   	    	 String query = "SELECT * from $tableName where EMAIL = ?";
+   	         PreparedStatement ps =con.prepareStatement(
+   	        		 query.replace("$tableName", table));
+   	         ps.setString(1, email);
+   	         ResultSet rs =ps.executeQuery();
+   	         if (rs.next()){
+   	        	 HashMap<String,String> tutorInfo = new HashMap<String,String>();
+   	        	tutorInfo.put("firstName", rs.getString("FIRSTNAME"));
+   	        	tutorInfo.put("lastName", rs.getString("LASTNAME"));
+   	        	tutorInfo.put("email", email);
+   	        	tutorInfo.put("password", rs.getString("PASSWORD"));
+   	        	tutorInfo.put("course1", rs.getString("COURSE_ONE"));
+   	        	tutorInfo.put("course2", rs.getString("COURSE_TWO"));
+   	        	tutorInfo.put("course3", rs.getString("COURSE_THREE"));
+   	        	tutorInfo.put("course4", rs.getString("COURSE_FOUR"));
+   	        	tutorInfo.put("schoolAttended", rs.getString("SCHOOLATTENDED"));
+   	        	tutorInfo.put("programAttended", rs.getString("PROGRAMATTENDED"));
+   	        	tutorInfo.put("school", rs.getString("SCHOOL"));
+   	        	tutorInfo.put("program", rs.getString("PROGRAM"));
+   	        	tutorInfo.put("degree", "DEGREE");
+   	        	Tutor targetTutor = new Tutor(tutorInfo);
+   	        	targetTutor.updateInfo(tutorInfo);
+   	        	 return targetTutor;
+   	         }
+   	        
+   	      }catch(Exception e)
+   	      {
+   	          e.printStackTrace();
+   	      }
+		return null;
+			
+    }
      public void updateStudent(String table, Student student){
     	 try {
 			Connection con= getConnection();
@@ -187,6 +261,65 @@ public class DatabaseControl
 			e.printStackTrace();
 		}
      }
+     
+     
+     public void updateTutor(String table, Tutor tutor){
+    	 try {
+			Connection con= getConnection();
+			//if key exists
+			if (checkExistence(table, tutor.getEmail())){
+				String query = "UPDATE $tableName SET"
+						+ "COURSE_ONE=?, COURSE_TWO=?, COURSE_THREE=?,"
+						+ "COURSE_FOUR=?, FIRSTNAME=?, LASTNAME =?,"
+						+ "PASSWORD=?, PROGRAMATTENDED=?, SCHOOLATTENDED=?, SCHOOL=?, DEGREE=?, PROGRAM=?  WHERE EMAIL = ?";
+				PreparedStatement ps =con.prepareStatement(
+		        		 query.replace("$tableName", table));
+				ps.setString(1, tutor.getCourse1());
+				ps.setString(2, tutor.getCourse2());
+				ps.setString(3, tutor.getCourse3());
+				ps.setString(4, tutor.getCourse4());
+				ps.setString(5, tutor.getFirst());
+				ps.setString(6, tutor.getLast());
+				ps.setString(7, tutor.getPassword());
+				ps.setString(8, tutor.getProgramAttended());
+				ps.setString(9, tutor.getSchoolAttended());
+				ps.setString(10, tutor.getSchool());
+				ps.setString(11, tutor.getDegree());
+				ps.setString(12, tutor.getProgram());
+				ps.setString(13, tutor.getEmail());
+				ps.executeUpdate();
+			}else{
+				String query = "INSERT INTO $tableName "
+						+ "(COURSE_ONE, COURSE_TWO, COURSE_THREE,"
+						+ " COURSE_FOUR, FIRSTNAME, LASTNAME,"
+						+ "PASSWORD, PROGRAMATTENDED, SCHOOLATTENDED, SCHOOL, DEGREE, PROGRAM, EMAIL) VALUES"
+						+ "(?,?,?,?,?,?,?,?,?,?)";
+				PreparedStatement ps =con.prepareStatement(
+		        		 query.replace("$tableName", table));
+				ps.setString(1, tutor.getCourse1());
+				ps.setString(2, tutor.getCourse2());
+				ps.setString(3, tutor.getCourse3());
+				ps.setString(4, tutor.getCourse4());
+				ps.setString(5, tutor.getFirst());
+				ps.setString(6, tutor.getLast());
+				ps.setString(7, tutor.getPassword());
+				ps.setString(8, tutor.getProgramAttended());
+				ps.setString(9, tutor.getSchoolAttended());
+				ps.setString(10, tutor.getSchool());
+				ps.setString(11, tutor.getDegree());
+				ps.setString(12, tutor.getProgram());
+				ps.setString(13, tutor.getEmail());
+				String result = ps.toString();
+				ps.executeUpdate();
+			}
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+     }
+     
+     
      public  ResultSet GetAllUsers() 
      {
       try{

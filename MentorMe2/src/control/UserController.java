@@ -85,29 +85,50 @@ public class UserController {
 		}
 	}
 	
-	public void ModifyTutor(String email, HashMap<String, String> Informations){
+	public Tutor getTutor(String email){
 		Tutor targetTutor = TutorMap.get(email);
 		if (targetTutor == null){
-				targetTutor = new Tutor(Informations);
+			 if ((targetTutor = DatabaseControl.getInstance().getTutor(TutorTable, email)) != null)
+				 TutorMap.put(email, targetTutor);
 		}
-		else{
-			//this methond takes a complete set tutor information, and modify the target tutor accordingly
-			targetTutor.updateInfo(Informations);
+		return targetTutor;
+	}
+	
+	public Student getStudent(String email){
+		Student targetStudent = StudentMap.get(email);
+		if (targetStudent == null){
+				if ((targetStudent = DatabaseControl.getInstance().getStudent(StudentTable, email)) != null)
+					StudentMap.put(email, targetStudent);
+		}
+		return targetStudent;
+	}
+	
+	public boolean ModifyTutor(String email, HashMap<String, String> Informations){
+		Tutor targetTutor = getTutor(email);
+		if (targetTutor!= null)
+		{
+		targetTutor.updateInfo(Informations);
+		DatabaseControl.getInstance().updateTutor(TutorTable, targetTutor);
+		return true;
+		}else{
+			System.out.println("tutor does not exits");
+			return false;
 		}
 	}
 	
 	public boolean ModifyStudent(String email, HashMap<String, String> Informations){
-		Student targetStudent = StudentMap.get(email);
+		Student targetStudent = getStudent(email);
 		
-		if (targetStudent == null){
-				targetStudent = new Student(Informations);
-		}
-		else{
+		
+		if (targetStudent != null){
 			//this methond takes a complete set Student information, and modify the target Student accordingly
-			targetStudent.updateInfo(Informations);
-		}
+		targetStudent.updateInfo(Informations);
 		DatabaseControl.getInstance().updateStudent(StudentTable, targetStudent);
 		return true;
+		}else{
+			System.out.println("student does not exits");
+			return false;
+		}
 		
 	}
 	
