@@ -8,7 +8,7 @@ import com.ibm.nosql.json.api.BasicDBObject;
 import com.ibm.nosql.json.util.JSON;
 
 
-import admin.ServerProperties;
+//import admin.ServerProperties;
 import user.Student;
 
 
@@ -19,12 +19,12 @@ public class DatabaseControl
 	private static DatabaseControl instance = null;
 	
 	//default setting
-	private String databaseHost = ServerProperties.domain;
-	private int port = ServerProperties.port;
-	private String databaseName = ServerProperties.mainDataBase;
-	private String user = ServerProperties.userName;
-	private String password = ServerProperties.password;
-	private String url = "myurl";
+	private String databaseHost;// = ServerProperties.domain;
+	private int port;// = ServerProperties.port;
+	private String databaseName;// = ServerProperties.mainDataBase;
+	private String user;// = ServerProperties.userName;
+	private String password;// = ServerProperties.password;
+	private String url;// = "myurl";
 	
 	public static DatabaseControl getInstance() {
 	      if(instance == null) {
