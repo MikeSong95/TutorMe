@@ -3,6 +3,7 @@ package backend;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Vector;
 
 import com.ibm.nosql.json.api.BasicDBList;
 import com.ibm.nosql.json.api.BasicDBObject;
@@ -293,7 +294,7 @@ public class DatabaseControl
 						+ "(COURSE_ONE, COURSE_TWO, COURSE_THREE,"
 						+ " COURSE_FOUR, FIRSTNAME, LASTNAME,"
 						+ "PASSWORD, PROGRAMATTENDED, SCHOOLATTENDED, SCHOOL, DEGREE, PROGRAM, EMAIL) VALUES"
-						+ "(?,?,?,?,?,?,?,?,?,?)";
+						+ "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				PreparedStatement ps =con.prepareStatement(
 		        		 query.replace("$tableName", table));
 				ps.setString(1, tutor.getCourse1());
@@ -335,7 +336,6 @@ public class DatabaseControl
           e.printStackTrace();
       }
          return null;                 
-  }   
-     
+  } 
      
 }

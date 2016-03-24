@@ -141,8 +141,9 @@ function submit() {
 					url: "CoursesServlet",
 					data: data,
 					success: function(success) {
-						if (success === "success") {
-							window.location.href="courses.jsp";
+						alert(success);
+						if (success.equals("success")) {
+							window.location.href="welcome.jsp";
 						} else {
 							alert("An error has occurred.")
 						}

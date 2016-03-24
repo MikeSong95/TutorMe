@@ -80,9 +80,9 @@ public class SignupServlet extends HttpServlet {
 			tutorInfo.put("lastName", lastName);
 			tutorInfo.put("email", email);
 			tutorInfo.put("password", password);
-			tutorInfo.put("school", school);
+			tutorInfo.put("schoolAttended", school);
 			tutorInfo.put("degree", degree);
-			tutorInfo.put("program", program);
+			tutorInfo.put("programAttended", program);
 			
 			success = userController.createTutor(email, tutorInfo);
 		}

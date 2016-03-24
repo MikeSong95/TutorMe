@@ -49,7 +49,7 @@ public class Tutor extends User {
 		
 		this.schoolAttended=user.get("schoolAttended");
 		this.programAttended=user.get("programAttended");
-	
+		this.degree=user.get("degree");
 		// TODO Auto-generated constructor stub
 	}
 

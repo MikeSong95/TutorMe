@@ -57,6 +57,9 @@ public class CoursesServlet extends HttpServlet {
 		String email = (String) session.getAttribute("email");
 		String type = (String) session.getAttribute("type");
 		
+		// Success callback
+		boolean success = false;
+		
 		courses.put("school", school);
 		courses.put("program", program);
 		courses.put("course1", course1);
@@ -65,9 +68,14 @@ public class CoursesServlet extends HttpServlet {
 		courses.put("course4", course4);
 		
 		if (type.equals("student")) {
-			userController.ModifyStudent(email, courses);
+			success = userController.ModifyStudent(email, courses);
 		} else {
 			userController.ModifyTutor(email, courses);
+		}
+		if (success) {
+			response.getWriter().print("success");
+		} else {
+			response.getWriter().println("error");
 		}
 	}
 }
