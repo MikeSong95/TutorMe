@@ -1,6 +1,7 @@
 package backend;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
@@ -8,6 +9,7 @@ import java.util.Vector;
 import com.ibm.nosql.json.api.BasicDBList;
 import com.ibm.nosql.json.api.BasicDBObject;
 import com.ibm.nosql.json.util.JSON;
+
 
 
 //import admin.ServerProperties;
@@ -99,6 +101,27 @@ public class DatabaseControl
 		
 	}
 	
+	 public  boolean validateUser(String table, String email, String password) 
+     {
+      boolean st =false;
+      try{
+
+    	 Connection con= getConnection();
+    	 String query = "SELECT * from $tableName where EMAIL = ? AND PASSWORD=?";
+         PreparedStatement ps =con.prepareStatement(
+        		 query.replace("$tableName", table));
+         ps.setString(1, email);
+         ps.setString(2, password);
+         ResultSet rs =ps.executeQuery();
+         st = rs.next();
+        
+      }catch(Exception e)
+      {
+          e.printStackTrace();
+      }
+         return st;                 
+  }  
+	
 	
      public  boolean checkUser(String name,String pass) 
      {
@@ -143,6 +166,32 @@ public class DatabaseControl
   }   
      
      
+     
+     public Student constructStudentFromData(ResultSet rs){
+    	 try{if (rs!=null && rs.next()){
+        	 HashMap<String,String> studentInfo = new HashMap<String,String>();
+        	 studentInfo.put("firstName", rs.getString("FIRSTNAME"));
+        	 studentInfo.put("lastName", rs.getString("LASTNAME"));
+        	 studentInfo.put("email", rs.getString("EMAIL"));
+        	 studentInfo.put("password", rs.getString("PASSWORD"));
+        	 studentInfo.put("course1", rs.getString("COURSE_ONE"));
+        	 studentInfo.put("course2", rs.getString("COURSE_TWO"));
+        	 studentInfo.put("course3", rs.getString("COURSE_THREE"));
+        	 studentInfo.put("course4", rs.getString("COURSE_FOUR"));
+        	 studentInfo.put("school", rs.getString("SCHOOL"));
+        	 studentInfo.put("program", rs.getString("PROGRAM"));
+        	 Student targetStudent = new Student(studentInfo);
+        	 targetStudent.updateInfo(studentInfo);
+        	 return targetStudent;
+         }
+        
+      }catch(Exception e)
+      {
+          e.printStackTrace();
+      }
+    	 return null;
+     }
+     
      public Student getStudent(String table, String email){
     	  try{
 
@@ -152,22 +201,7 @@ public class DatabaseControl
     	        		 query.replace("$tableName", table));
     	         ps.setString(1, email);
     	         ResultSet rs =ps.executeQuery();
-    	         if (rs.next()){
-    	        	 HashMap<String,String> studentInfo = new HashMap<String,String>();
-    	        	 studentInfo.put("firstName", rs.getString("FIRSTNAME"));
-    	        	 studentInfo.put("lastName", rs.getString("LASTNAME"));
-    	        	 studentInfo.put("email", email);
-    	        	 studentInfo.put("password", rs.getString("PASSWORD"));
-    	        	 studentInfo.put("course1", rs.getString("COURSE_ONE"));
-    	        	 studentInfo.put("course2", rs.getString("COURSE_TWO"));
-    	        	 studentInfo.put("course3", rs.getString("COURSE_THREE"));
-    	        	 studentInfo.put("course4", rs.getString("COURSE_FOUR"));
-    	        	 studentInfo.put("school", rs.getString("SCHOOL"));
-    	        	 studentInfo.put("program", rs.getString("PROGRAM"));
-    	        	 Student targetStudent = new Student(studentInfo);
-    	        	 targetStudent.updateInfo(studentInfo);
-    	        	 return targetStudent;
-    	         }
+    	         return constructStudentFromData(rs);
     	        
     	      }catch(Exception e)
     	      {
@@ -176,6 +210,62 @@ public class DatabaseControl
 		return null;
  			
      }
+     
+     public ArrayList<Student> getAllStudents(String table){
+    	 ArrayList<Student> Students = new ArrayList<Student>();
+    	 try{
+    		 
+	    	 Connection con= getConnection();
+	    	 String query = "SELECT * from $tableName";
+	         PreparedStatement ps =con.prepareStatement(
+	        		 query.replace("$tableName", table));
+	         ResultSet rs =ps.executeQuery();
+	         while (true){
+	        	 Student i = constructStudentFromData(rs);
+	        	 if (i !=null){
+	        		 Students.add(i);
+	        	 }
+	        	 else break;
+	         }
+	         return Students;
+	        
+	      }catch(Exception e)
+	      {
+	          e.printStackTrace();
+	      }
+	return Students;
+			
+ }
+     
+     
+     
+     public Tutor constructTutorFromResult(ResultSet rs){
+    	 try{
+    	 if (rs!=null && rs.next()){
+	        	 HashMap<String,String> tutorInfo = new HashMap<String,String>();
+	        	tutorInfo.put("firstName", rs.getString("FIRSTNAME"));
+	        	tutorInfo.put("lastName", rs.getString("LASTNAME"));
+	        	tutorInfo.put("email", rs.getString("EMAIL"));
+	        	tutorInfo.put("password", rs.getString("PASSWORD"));
+	        	tutorInfo.put("course1", rs.getString("COURSE_ONE"));
+	        	tutorInfo.put("course2", rs.getString("COURSE_TWO"));
+	        	tutorInfo.put("course3", rs.getString("COURSE_THREE"));
+	        	tutorInfo.put("course4", rs.getString("COURSE_FOUR"));
+	        	tutorInfo.put("schoolAttended", rs.getString("SCHOOLATTENDED"));
+	        	tutorInfo.put("programAttended", rs.getString("PROGRAMATTENDED"));
+	        	tutorInfo.put("school", rs.getString("SCHOOL"));
+	        	tutorInfo.put("program", rs.getString("PROGRAM"));
+	        	tutorInfo.put("degree", "DEGREE");
+	        	Tutor targetTutor = new Tutor(tutorInfo);
+	        	targetTutor.updateInfo(tutorInfo);
+	        	 return targetTutor;
+	         }
+    	 }catch(SQLException e){
+    		 e.printStackTrace();
+    	 }
+    	 return null;
+     }
+     
      
      public Tutor getTutor(String table, String email){
    	  try{
@@ -186,25 +276,7 @@ public class DatabaseControl
    	        		 query.replace("$tableName", table));
    	         ps.setString(1, email);
    	         ResultSet rs =ps.executeQuery();
-   	         if (rs.next()){
-   	        	 HashMap<String,String> tutorInfo = new HashMap<String,String>();
-   	        	tutorInfo.put("firstName", rs.getString("FIRSTNAME"));
-   	        	tutorInfo.put("lastName", rs.getString("LASTNAME"));
-   	        	tutorInfo.put("email", email);
-   	        	tutorInfo.put("password", rs.getString("PASSWORD"));
-   	        	tutorInfo.put("course1", rs.getString("COURSE_ONE"));
-   	        	tutorInfo.put("course2", rs.getString("COURSE_TWO"));
-   	        	tutorInfo.put("course3", rs.getString("COURSE_THREE"));
-   	        	tutorInfo.put("course4", rs.getString("COURSE_FOUR"));
-   	        	tutorInfo.put("schoolAttended", rs.getString("SCHOOLATTENDED"));
-   	        	tutorInfo.put("programAttended", rs.getString("PROGRAMATTENDED"));
-   	        	tutorInfo.put("school", rs.getString("SCHOOL"));
-   	        	tutorInfo.put("program", rs.getString("PROGRAM"));
-   	        	tutorInfo.put("degree", "DEGREE");
-   	        	Tutor targetTutor = new Tutor(tutorInfo);
-   	        	targetTutor.updateInfo(tutorInfo);
-   	        	 return targetTutor;
-   	         }
+   	         return constructTutorFromResult(rs);
    	        
    	      }catch(Exception e)
    	      {
@@ -213,6 +285,34 @@ public class DatabaseControl
 		return null;
 			
     }
+     
+     
+     public ArrayList<Tutor> getAllTutors(String table){
+    	 ArrayList<Tutor> Tutors = new ArrayList<Tutor>();
+    	 try{
+    		 
+	    	 Connection con= getConnection();
+	    	 String query = "SELECT * from $tableName";
+	         PreparedStatement ps =con.prepareStatement(
+	        		 query.replace("$tableName", table));
+	         ResultSet rs =ps.executeQuery();
+	         while (true){
+	        	 Tutor i = constructTutorFromResult(rs);
+	        	 if (i !=null){
+	        		 Tutors.add(i);
+	        	 }
+	        	 else break;
+	         }
+	         return Tutors;
+	        
+	      }catch(Exception e)
+	      {
+	          e.printStackTrace();
+	      }
+	return Tutors;
+			
+ }
+     
      public void updateStudent(String table, Student student){
     	 try {
 			Connection con= getConnection();
