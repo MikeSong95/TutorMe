@@ -40,6 +40,7 @@ public class Tutor extends User {
 
 
 	private String degree;
+	private String program;
     
 	
 	public Tutor(HashMap<String, String> user) {
@@ -164,6 +165,8 @@ public class Tutor extends User {
 			this.school = user.get("school");
 			if (user.get("degree")!= null)
 			this.degree = user.get("degree");
+			if (user.get("program")!= null)
+			this.program = user.get("program");
 		
 		
 		// course strings, to be completed
@@ -172,6 +175,20 @@ public class Tutor extends User {
 		
 		// TODO Auto-generated method stub
 		
+	}
+
+
+
+
+	public String getProgram() {
+		return program;
+	}
+
+
+
+
+	public void setProgram(String program) {
+		this.program = program;
 	}
 	
 	

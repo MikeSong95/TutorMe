@@ -198,6 +198,7 @@ public class DatabaseControl
    	        	tutorInfo.put("schoolAttended", rs.getString("SCHOOLATTENDED"));
    	        	tutorInfo.put("programAttended", rs.getString("PROGRAMATTENDED"));
    	        	tutorInfo.put("school", rs.getString("SCHOOL"));
+   	        	tutorInfo.put("program", rs.getString("PROGRAM"));
    	        	tutorInfo.put("degree", "DEGREE");
    	        	Tutor targetTutor = new Tutor(tutorInfo);
    	        	targetTutor.updateInfo(tutorInfo);
@@ -270,7 +271,7 @@ public class DatabaseControl
 				String query = "UPDATE $tableName SET"
 						+ "COURSE_ONE=?, COURSE_TWO=?, COURSE_THREE=?,"
 						+ "COURSE_FOUR=?, FIRSTNAME=?, LASTNAME =?,"
-						+ "PASSWORD=?, PROGRAMATTENDED=?, SCHOOLATTENDED=?, SCHOOL=?, DEGREE=?  WHERE EMAIL = ?";
+						+ "PASSWORD=?, PROGRAMATTENDED=?, SCHOOLATTENDED=?, SCHOOL=?, DEGREE=?, PROGRAM=?  WHERE EMAIL = ?";
 				PreparedStatement ps =con.prepareStatement(
 		        		 query.replace("$tableName", table));
 				ps.setString(1, tutor.getCourse1());
@@ -284,13 +285,14 @@ public class DatabaseControl
 				ps.setString(9, tutor.getSchoolAttended());
 				ps.setString(10, tutor.getSchool());
 				ps.setString(11, tutor.getDegree());
-				ps.setString(12, tutor.getEmail());
+				ps.setString(12, tutor.getProgram());
+				ps.setString(13, tutor.getEmail());
 				ps.executeUpdate();
 			}else{
 				String query = "INSERT INTO $tableName "
 						+ "(COURSE_ONE, COURSE_TWO, COURSE_THREE,"
 						+ " COURSE_FOUR, FIRSTNAME, LASTNAME,"
-						+ "PASSWORD, PROGRAMATTENDED, SCHOOLATTENDED, SCHOOL, DEGREE, EMAIL) VALUES"
+						+ "PASSWORD, PROGRAMATTENDED, SCHOOLATTENDED, SCHOOL, DEGREE, PROGRAM, EMAIL) VALUES"
 						+ "(?,?,?,?,?,?,?,?,?,?)";
 				PreparedStatement ps =con.prepareStatement(
 		        		 query.replace("$tableName", table));
@@ -305,7 +307,8 @@ public class DatabaseControl
 				ps.setString(9, tutor.getSchoolAttended());
 				ps.setString(10, tutor.getSchool());
 				ps.setString(11, tutor.getDegree());
-				ps.setString(12, tutor.getEmail());
+				ps.setString(12, tutor.getProgram());
+				ps.setString(13, tutor.getEmail());
 				String result = ps.toString();
 				ps.executeUpdate();
 			}
