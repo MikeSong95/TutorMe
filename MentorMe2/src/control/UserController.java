@@ -1,10 +1,10 @@
 package control;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
 import backend.*;
-
 import user.*;
 
 public class UserController {
@@ -53,6 +53,16 @@ public class UserController {
 			return false;
 	}
 	
+	public boolean validateStudent(String email, String password){
+		return DatabaseControl.getInstance().validateUser(StudentTable, email, password);
+	}
+	
+	public boolean validateTutor(String email, String password){
+		return DatabaseControl.getInstance().validateUser(TutorTable, email, password);
+	}
+	
+	
+	
 	public boolean createTutor(String email, HashMap<String, String> Informations){
 		
 		
@@ -68,6 +78,32 @@ public class UserController {
 			return false;
 		}
 	}
+	
+	public ArrayList<Tutor> getAllTutors(){
+		return DatabaseControl.getInstance().getAllTutors(TutorTable);
+	}
+	
+	public ArrayList<Student> getAllStudents(){
+		return DatabaseControl.getInstance().getAllStudents(StudentTable);
+	}
+	
+	
+	public Tutor[] getRecommendTutor(String email){
+		DatabaseControl dbc = DatabaseControl.getInstance();
+		Student targetStudent = dbc.getStudent(StudentTable, email);
+		if (targetStudent != null){
+			ArrayList<Tutor> alltutors = dbc.getAllTutors(TutorTable);
+			if (alltutors.size() > 0){
+				//need to be implemented
+				return RecommendationControl.getRecommended(targetStudent, alltutors);
+			}
+		}
+		else{
+			System.err.println("no such suer");
+		}
+	}
+	
+	
 	
 	public boolean CreateStudent(String email, HashMap<String, String> Informations){
 		
