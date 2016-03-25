@@ -1,8 +1,15 @@
 package control;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Vector;
+import java.util.*;
 
 import backend.*;
 import user.*;
@@ -101,7 +108,11 @@ public class UserController {
 		}
 		else{
 			System.err.println("no such suer");
+			
+			
 		}
+		
+		return null;
 	}
 
 
@@ -114,12 +125,12 @@ public class UserController {
 
 			int j=0;
 
-			if(student.getSchool().equals(tutors[i].getSchool())){
+			if(student.getSchoolAttending().equals(tutors[i].getSchool())){
 
 				++j;
 
 
-			if(student.getProgram().equals(tutors[i].getProgram())){
+			if(student.getProgramAttending().equals(tutors[i].getProgram())){
 
 
 				++j;
@@ -153,13 +164,13 @@ public class UserController {
 	 		}
 
 
-      if(tutor[i].getDegree().equals("Bachelor's")){
+      if(tutors[i].getDegree().equals("Bachelor's")){
 				++j;
-			}else if(tutor[i].getDegree().equals("Master's")){
+			}else if(tutors[i].getDegree().equals("Master's")){
 
         j=j+2;
 
-			}else if(tutor[i].getDegree().equals("Ph.D")){
+			}else if(tutors[i].getDegree().equals("Ph.D")){
 
 				j=j+3;
 			}
