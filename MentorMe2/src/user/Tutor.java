@@ -7,10 +7,10 @@ public class Tutor extends User {
 
 	private String schoolAttended; // or attending
 	private String programAttended; //or attending
-	private String course1;
-	private String course2;
-	private String course3;
-	private String course4;
+	private String course1 = null;
+	private String course2 = null;
+	private String course3 = null;
+	private String course4 = null;
 	private String school;
 	public String getSchool() {
 		return school;

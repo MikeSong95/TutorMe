@@ -70,7 +70,7 @@ public class CoursesServlet extends HttpServlet {
 		if (type.equals("student")) {
 			success = userController.ModifyStudent(email, courses);
 		} else {
-			userController.ModifyTutor(email, courses);
+			success = userController.ModifyTutor(email, courses);
 		}
 		if (success) {
 			response.getWriter().print("success");

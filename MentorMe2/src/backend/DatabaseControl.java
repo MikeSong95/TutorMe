@@ -70,9 +70,7 @@ public class DatabaseControl
 		}
 		
 	}
-	
-	
-	
+
 	public  Connection getConnection() throws ClassNotFoundException, SQLException{
 		//loading drivers for mysql
 		Connection con = null;
@@ -100,13 +98,14 @@ public class DatabaseControl
                 		
 		
 	}
+
 	
 	 public  boolean validateUser(String table, String email, String password) 
      {
       boolean st =false;
       try{
-
-    	 Connection con= getConnection();
+    	  Connection con= getConnection();
+    	
     	 String query = "SELECT * from $tableName where EMAIL = ? AND PASSWORD=?";
          PreparedStatement ps =con.prepareStatement(
         		 query.replace("$tableName", table));
@@ -114,11 +113,12 @@ public class DatabaseControl
          ps.setString(2, password);
          ResultSet rs =ps.executeQuery();
          st = rs.next();
-        
+         con.close();
       }catch(Exception e)
       {
           e.printStackTrace();
       }
+      	
          return st;                 
   }  
 	
@@ -137,7 +137,7 @@ public class DatabaseControl
          ps.setString(2, pass);
          ResultSet rs =ps.executeQuery();
          st = rs.next();
-        
+        con.close();
       }catch(Exception e)
       {
           e.printStackTrace();
@@ -157,7 +157,7 @@ public class DatabaseControl
          ps.setString(1, email);
          ResultSet rs =ps.executeQuery();
          st = rs.next();
-        
+         con.close();
       }catch(Exception e)
       {
           e.printStackTrace();
@@ -201,8 +201,10 @@ public class DatabaseControl
     	        		 query.replace("$tableName", table));
     	         ps.setString(1, email);
     	         ResultSet rs =ps.executeQuery();
-    	         return constructStudentFromData(rs);
     	        
+    	         Student student = constructStudentFromData(rs);
+    	         con.close();
+    	         return student;
     	      }catch(Exception e)
     	      {
     	          e.printStackTrace();
@@ -227,6 +229,7 @@ public class DatabaseControl
 	        	 }
 	        	 else break;
 	         }
+	         con.close();
 	         return Students;
 	        
 	      }catch(Exception e)
@@ -255,7 +258,7 @@ public class DatabaseControl
 	        	tutorInfo.put("programAttended", rs.getString("PROGRAMATTENDED"));
 	        	tutorInfo.put("school", rs.getString("SCHOOL"));
 	        	tutorInfo.put("program", rs.getString("PROGRAM"));
-	        	tutorInfo.put("degree", "DEGREE");
+	        	tutorInfo.put("degree", rs.getString("DEGREE"));
 	        	Tutor targetTutor = new Tutor(tutorInfo);
 	        	targetTutor.updateInfo(tutorInfo);
 	        	 return targetTutor;
@@ -276,8 +279,9 @@ public class DatabaseControl
    	        		 query.replace("$tableName", table));
    	         ps.setString(1, email);
    	         ResultSet rs =ps.executeQuery();
-   	         return constructTutorFromResult(rs);
-   	        
+   	         Tutor tutor = constructTutorFromResult(rs);
+   	        con.close();
+   	        return tutor;
    	      }catch(Exception e)
    	      {
    	          e.printStackTrace();
@@ -303,6 +307,7 @@ public class DatabaseControl
 	        	 }
 	        	 else break;
 	         }
+	         con.close();
 	         return Tutors;
 	        
 	      }catch(Exception e)
@@ -356,7 +361,7 @@ public class DatabaseControl
 				String result = ps.toString();
 				ps.executeUpdate();
 			}
-			
+			con.close();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -413,7 +418,7 @@ public class DatabaseControl
 				String result = ps.toString();
 				ps.executeUpdate();
 			}
-			
+			con.close();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -429,6 +434,7 @@ public class DatabaseControl
          PreparedStatement ps =con.prepareStatement
                              ("select * from Users");
          ResultSet rs =ps.executeQuery();
+        con.close();
          return rs;
         
       }catch(Exception e)

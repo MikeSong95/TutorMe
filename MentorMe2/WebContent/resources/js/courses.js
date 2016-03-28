@@ -39,7 +39,7 @@ function programs(school) {
 
 function uoftCourses(program) {
 	if (program === "compeng") {
-		programStudy = "compEng"
+		programStudy = "Computer Engineering"
 		$('#uoft_courses_compsci').hide();
 		$('#uoft_compsci').removeAttr('class');
 		
@@ -53,7 +53,7 @@ function uoftCourses(program) {
 		// Reset course counter
 		window.courseCounter = 0;
 	} else if (program === "compsci") {
-		programStudy = "compSci"
+		programStudy = "Computer Science"
 		$('#uoft_courses_compeng').hide();
 		$('#uoft_compeng').removeAttr('class');
 
@@ -76,7 +76,7 @@ function uoftCourses(program) {
 }
 
 function westernCourses(program) {
-	programStudy = "chemistry"
+	programStudy = "Chemistry"
 
 	// Remove courses
 	for (var j = 0; j < courseCounter; j++) {
@@ -141,8 +141,7 @@ function submit() {
 					url: "CoursesServlet",
 					data: data,
 					success: function(success) {
-						alert(success);
-						if (success.equals("success")) {
+						if (success === "success") {
 							window.location.href="welcome.jsp";
 						} else {
 							alert("An error has occurred.")

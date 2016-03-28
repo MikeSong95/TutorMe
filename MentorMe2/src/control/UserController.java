@@ -1,8 +1,17 @@
 package control;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import backend.*;
 import user.*;
@@ -33,7 +42,7 @@ public class UserController {
 		  return instance;
 	}
 
-	private UserController(){
+	public UserController(){
 		TutorMap = new HashMap<String, Tutor>();
 		StudentMap = new HashMap<String, Student>();
 		UserCount = 0;
@@ -96,105 +105,172 @@ public class UserController {
 			if (alltutors.size() > 0){
 				//need to be implemented
 				Tutor[] tutors= new Tutor[alltutors.size()];
-				return getRecommendation(targetStudent, alltutors.toArray(tutors));
+				Tutor[] recommended = getRecommendation(targetStudent, alltutors.toArray(tutors));
+
+				return recommended;
+			} else {
+				System.err.println("No tutors.");
+				return null;
 			}
-		}
-		else{
+		} else{
 			System.err.println("no such suer");
+			return null;
 		}
 	}
 
 
 	public Tutor[] getRecommendation(Student student, Tutor[] tutors){
-
-
-		HashMap<Tutor, Integer> values = new HashMap<Tutor, Integer>();
-
-		for(int i=0;i<tutors.length;++i){
-
-			int j=0;
-
-			if(student.getSchool().equals(tutors[i].getSchool())){
-
-				++j;
-
-
-			if(student.getProgram().equals(tutors[i].getProgram())){
-
-
-				++j;
-
-			if(student.getCourse1().equals(tutors[i].getCourse2()) || student.getCourse1().equals(tutors[i].getCourse3()) || student.getCourse1().equals(tutors[i].getCourse4())){
-
-
-			++j;
-
-			}
-
-			if(student.getCourse2().equals(tutors[i].getCourse1()) || student.getCourse2().equals(tutors[i].getCourse3()) || student.getCourse2().equals(tutors[i].getCourse4())){
-
-
-				++j;
-
-			}
-
-	    if(student.getCourse3().equals(tutors[i].getCourse1()) || student.getCourse3().equals(tutors[i].getCourse2()) || student.getCourse3().equals(tutors[i].getCourse4()) ){
-
-
-				++j;
-
-			}
-
-	    if(student.getCourse4().equals(tutors[i].getCourse1()) || student.getCourse4().equals(tutors[i].getCourse2()) || student.getCourse3().equals(tutors[i].getCourse3())  ){
-
-
-	 			++j;
-
-	 		}
-
-
-      if(tutor[i].getDegree().equals("Bachelor's")){
-				++j;
-			}else if(tutor[i].getDegree().equals("Master's")){
-
-        j=j+2;
-
-			}else if(tutor[i].getDegree().equals("Ph.D")){
-
-				j=j+3;
-			}
-
-
-}
-
-}
-
-	         values.put(tutors[i], j);
+		// Student variables
+		String student_School = student.getSchoolAttending();
+		String student_Program = student.getProgramAttending();
+		String student_Course1 = student.getCourse1();
+		String student_Course2 = student.getCourse2();
+		String student_Course3 = student.getCourse3();
+		String student_Course4 = student.getCourse4();
+		
+		// Tutor variables
+		Tutor tutor;
+		String tutor_SchoolAttended;
+		String tutor_Degree;
+		String tutor_ProgramAttended;
+		String tutor_SchoolTutoring;
+		String tutor_ProgramTutoring;
+		String tutor_Course1;
+		String tutor_Course2;
+		String tutor_Course3;
+		String tutor_Course4;
+		
+		int tutorScore = 0;
+		
+		// Initialize hashmap of tutors with a score of 0
+		HashMap<String, Integer> tutorScores = new HashMap<String, Integer>();
+		
+		for (int i = 0; i < tutors.length; i++) {
+			tutor = tutors[i];
+			tutorScores.put(tutor.getEmail(), 0);
 		}
-
-
-	/*	<li><a href="#">Bachelor's</a></li>
-		<li><a href="#">Master's</a></li>
-		<li><a href="#">Ph.D</a></li> */
-
-	  Map<Tutor, Integer> mymap= sortByComparator(values, false);
-
-		List<Tutor> keyList = new ArrayList<Tutor>(mymap.keySet());
-		Tutor[] array = keyList.toArray(new Tutor[keyList.size()]);
-
-		System.out.println("Array Elements:");
-	  for (int i = 0; i < array.length; i++)
-	    {
-	       System.out.println(array[i].getFirst());
-	    }
-
-
+		
+		// Assign scores to each tutor in hashmap
+		for (int i = 0; i < tutors.length; i++) {
+			tutor = tutors[i];
+			System.out.println(">> Checking tutor: " + tutor.getEmail());
+			tutor_SchoolTutoring = tutors[i].getSchool();
+			
+			// Check student school == school tutor is tutoring at
+			if (tutor_SchoolTutoring.equals(student_School)) {
+				tutor_ProgramTutoring = tutors[i].getProgram();
+				
+				// Check student program == program tutor is tutoring for
+				if (tutor_ProgramTutoring.equals(student_Program)) {
+					tutor_SchoolAttended = tutors[i].getSchool();
+				
+					// Check student school == tutor school attended
+					if (tutor_SchoolAttended.equals(student_School)) {
+						tutorScore++;
+					}	
+					
+					tutor_ProgramAttended = tutors[i].getProgram();
+					
+					// Check student program == tutor program attended
+					if (tutor_ProgramAttended.equals(student_Program)) {
+						tutorScore++;
+					}				
+					
+					// Check if tutor courses == student courses
+					tutor_Course1 = tutors[i].getCourse1();
+					tutor_Course2 = tutors[i].getCourse2();
+					tutor_Course3 = tutors[i].getCourse3();
+					tutor_Course4 = tutors[i].getCourse4();
+					List<String> tutor_CourseArray = Arrays.asList(tutor_Course1, tutor_Course2, tutor_Course3, tutor_Course4);
+					List<String> student_CourseArray = Arrays.asList(student_Course1, student_Course2, student_Course3, student_Course4);
+					String course;
+					
+					for (int j = 0; j < tutor_CourseArray.size(); j++) {
+						if (student_CourseArray.get(j) != null) {
+							course = student_CourseArray.get(j);
+							
+							if (tutor_CourseArray.contains(course)) {
+								tutorScore += 3;
+							}
+						}
+					}
+					
+					// Check tutor's degree
+					tutor_Degree = tutors[i].getDegree();
+					
+					if (tutor_Degree.equals("Ph.D")) {
+						tutorScore += 3;
+					} else if (tutor_Degree.equals("Master's")) {
+						tutorScore += 2;
+					} else {
+						tutorScore++;
+					}
+					
+					System.out.println(">> " + tutor.getEmail() + " has a score of: " + tutorScore);
+					tutorScores.replace(tutor.getEmail(),tutorScore);
+					tutorScore = 0;
+				} 
+			}
+		}
+		
+		Map<String, Integer> sortedTutors = sortByComparator(tutorScores, false);
+		
+		Tutor[] array = new Tutor[4];
+		int index = 0;
+		String tutorEmail;
+		for (Entry<String, Integer> entry : sortedTutors.entrySet()) {
+			tutorEmail = entry.getKey();
+			
+		    if (index < 4) {
+		    	for (int i = 0; i < tutors.length; i++) {
+					if (tutorEmail.equals(tutors[i].getEmail())) {
+						array[index] = tutors[i];
+						index++;
+						break;
+					}
+				}
+		    } else {
+		    	break;
+		    }
+		}
+			
+		System.out.println(">> 1: " + array[0].getEmail());
+		System.out.println(">> 2: " + array[1].getEmail());
+		System.out.println(">> 3: " + array[2].getEmail());
+		System.out.println(">> 4: " + array[3].getEmail());
+		
+		// Reset variables
+		index = 0;
+		tutorScores.clear();
+		sortedTutors.clear();
+		tutorScore = 0;
+		
 		return array;
-
 	}
 
-
-
+	private static Map<String, Integer> sortByComparator(HashMap<String, Integer> unsortMap, final boolean order) {
+		List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(unsortMap.entrySet());
+		
+		// Sorting the list based on values
+		Collections.sort(list, new Comparator<Entry<String, Integer>>() {
+		    public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+		        if (order) {
+		            return o1.getValue().compareTo(o2.getValue());
+		        } else {
+		            return o2.getValue().compareTo(o1.getValue());
+		        }
+		    }
+		});
+		
+		// Maintaining insertion order with the help of LinkedList
+		Map<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
+		for (Entry<String, Integer> entry : list) {
+		    sortedMap.put(entry.getKey(), entry.getValue());
+		}
+		
+		return sortedMap;
+	}
+	
 	public boolean CreateStudent(String email, HashMap<String, String> Informations){
 
 
@@ -258,45 +334,4 @@ public class UserController {
 		}
 
 	}
-
-	private static Map<Tutor, Integer> sortByComparator(Map<Tutor, Integer> unsortMap, final boolean order)
-	 {
-
-			 List<Entry<Tutor, Integer>> list = new LinkedList<Entry<Tutor, Integer>>(unsortMap.entrySet());
-
-			 // Sorting the list based on values
-			 Collections.sort(list, new Comparator<Entry<Tutor, Integer>>()
-			 {
-					 public int compare(Entry<Tutor, Integer> o1,
-									 Entry<Tutor, Integer> o2)
-					 {
-							 if (order)
-							 {
-									 return o1.getValue().compareTo(o2.getValue());
-							 }
-							 else
-							 {
-									 return o2.getValue().compareTo(o1.getValue());
-
-							 }
-					 }
-			 });
-
-			 // Maintaining insertion order with the help of LinkedList
-			 Map<Tutor, Integer> sortedMap = new LinkedHashMap<Tutor, Integer>();
-			 for (Entry<Tutor, Integer> entry : list)
-			 {
-					 sortedMap.put(entry.getKey(), entry.getValue());
-			 }
-
-			 return sortedMap;
-	 }
-
-
-
-
-
-
-
-
 }

@@ -30,13 +30,13 @@
 			<div class="container-fluid">
  				<ul class="nav navbar-nav">
        				<li><a href="index.jsp">Home</a></li>
-       				<li><a href="#">About</a></li>
-       				<li><a href="#">FAQs</a></li>
-       				<li><a href="#">Contact Us</a></li>
+       				<li><a href="about.html">About</a></li>
+       				<li><a href="faq.html">FAQs</a></li>
+       				<li><a href="contact.html">Contact Us</a></li>
       			</ul>
       			<ul class="nav navbar-nav navbar-right">
        				<li class="active"><a href="signup.jsp">Sign Up</a></li>
-       				<li><a href="#">Log In</a></li>
+       				<li><a href="login.jsp">Log In</a></li>
       			</ul>
 	     	</div>
 		</nav>
