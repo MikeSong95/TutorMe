@@ -11,6 +11,15 @@
 	    <link href="./resources/css/bootstrap.min.css" rel="stylesheet">
 	    <link href="./resources/css/bootstrap-theme.min.css" rel="stylesheet">
 	    <script src="./resources/js/bootstrap.min.js"></script>
+	    <style>input[type=submit] {
+    padding:5px 15px; 
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    width:100%;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+}</style>
 	    
 	    <!-- JS -->
 		<script src="./resources/js/index.js"></script>
@@ -42,27 +51,26 @@
 		</nav>
 	
 		<div class="container">
-			<form id="contact" action="" method="post">
+			<form id="contact" action="Contact" method="get">
 				<h3>Any Questions?</h3>
 				<h4>Contact us today, and get reply with in 24 hours!</h4>
 				<fieldset>
-					<input placeholder="Your name" type="text" tabindex="1" required
+					<input placeholder="Your name" type="text" name ="userName" tabindex="1" required
 						autofocus>
 				</fieldset>
 				<fieldset>
-					<input placeholder="Your Email Address" type="email" tabindex="2"
+					<input placeholder="Your Email Address" name = "email" type="email" tabindex="2"
 						required>
 				</fieldset>
 				<fieldset>
-					<input placeholder="Your Phone Number" type="tel" tabindex="3">
+					<input placeholder="Your Phone Number" name = "phoneNum" type="tel" tabindex="3">
 				</fieldset>
 				<fieldset>
-					<textarea placeholder="Type your Message Here...." tabindex="4"
+					<textarea placeholder="Type your Message Here...." name ="message" tabindex="4"
 						required></textarea>
 				</fieldset>
 				<fieldset>
-					<button name="submit" type="submit" id="contact-submit"
-						data-submit="...Sending">Submit</button>
+				    <input type="submit" value="Commit" />
 				</fieldset>
 			</form>
 	
