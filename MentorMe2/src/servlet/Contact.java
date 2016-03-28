@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.activation.*;
 @WebServlet("/Contact")
 public class Contact extends HttpServlet{
     
@@ -72,6 +71,7 @@ public class Contact extends HttpServlet{
          "<body bgcolor=\"#f0f0f0\">\n" +
          "<h1 align=\"center\">" + title + "</h1>\n" +
          "<p align=\"center\">" + res + "</p>\n" +
+         "<a href='/MentorMe2/'>Go to Home </a>" +
          "</body></html>");
       }catch (MessagingException mex) {
          mex.printStackTrace();
