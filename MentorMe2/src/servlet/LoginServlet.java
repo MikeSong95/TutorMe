@@ -42,10 +42,13 @@ public class LoginServlet extends HttpServlet {
 		// Check if it is a student, or tutor, or it doesn't exist / incorrect credentials
 		if (controller.validateStudent(email, password)) {
 			session.setAttribute("email", email);
+			session.setAttribute("type", "student");
+			session.setAttribute("name",controller.getStudent(email).getFirst());
 			System.out.println("Student " + email + " has logged in.");
 			res.print("student");
 		} else if (controller.validateTutor(email, password)){
-			session.setAttribute("email", email);
+			session.setAttribute("tutorEmail", email);
+			session.setAttribute("type", "tutor");
 			System.out.println("Tutor " + email + " has logged in.");
 			res.print("tutor");
 		} else {

@@ -14,7 +14,7 @@
 	    <script src="./resources/js/bootstrap.min.js"></script>
 	    
 	    <!-- JS -->
-		<script src="./resources/js/welcome.js"></script>
+		<script src="./resources/js/studentProfile.js"></script>
 		
 		<!-- CSS -->
 		<link href="./resources/css/tutorProfile.css" rel="stylesheet">
@@ -24,9 +24,8 @@
 	<body>
 		<%@ page import="control.UserController, user.*" %>
 		<%  
-			String tutorEmail = (String) session.getAttribute("tutorEmail");
-			System.out.println("> Tutor email is: " + tutorEmail);
-			Tutor tutor = UserController.getInstance().getTutor(tutorEmail);
+			String email = (String) session.getAttribute("email");
+			Student student = UserController.getInstance().getStudent(email);
         %>
 		<!-- Background Image -->
 		<div id="background">
@@ -35,40 +34,32 @@
 		<!-- Navbar -->
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
- 				<ul class="nav navbar-nav">
-       				<li><a href="welcome.jsp">Dashboard</a></li>
+			<ul class="nav navbar-nav">
+       				<li class="active"><a href="welcome.jsp">Dashboard</a></li>
       			</ul>
       			<ul class="nav navbar-nav navbar-right">
        				<li><a href="index.jsp">Logout</a></li>
       			</ul>
-      			<ul class="nav navbar-nav navbar-right">
-       				<li><a href="#"><%out.print(session.getAttribute("name"));%>'s Profile</a></li>
-      			</ul>
-      			
 	     	</div>
 		</nav>
 		<div class="transbox fadein">
-			<h1 align="center"><%out.print(tutor.getFirst() + " " + tutor.getLast());%></h1>
-			<h2 align="center"><%out.print(tutor.getEmail()); %></h2>
-			<div class="col-sm-6">
-				<h3> Program Attended:</h3> <h4><%out.print(tutor.getProgram());%></h4>
-				<h3> Degree:</h3> <h4> <%out.print(tutor.getDegree());%></h4>
-				<h3> School Attended: </h3> <h4><%out.print(tutor.getSchoolAttended()); %></h4>
-			</div>
-			
-			<div class="col-sm-6">
-				<h3> School Tutoring At:</h3> <h4><%out.print(tutor.getSchool()); %></h4>
-				<h3> Program Tutoring: </h3><h4><%out.print(tutor.getProgram()); %></h4>
+			<h1 align="center"><%out.print(student.getFirst() + " " + student.getLast());%></h1>
+			<h2 align="center"><%out.print(student.getEmail()); %></h2>
+				<h3> School:</h3> <h4><%out.print(student.getSchoolAttending()); %></h4>
+				<h3> Program Tutoring: </h3><h4><%out.print(student.getProgramAttending()); %></h4>
 				<h3> Courses Tutoring: </h3>
-					<% String[] courses = {tutor.getCourse1(), tutor.getCourse2(), tutor.getCourse3(), tutor.getCourse4()};
+					<% String[] courses = {student.getCourse1(), student.getCourse2(), student.getCourse3(), student.getCourse4()};
 						for (int i = 0; i < courses.length; i++) {
 							if (courses[i] != null) { %>
 								<h4> <%out.print(courses[i]);%>	</h4>
 						<%  } 
 						}
 						%>
+				<div align="center">
+					<button onclick="editInfo()">Edit Info</button> <button onclick="editCourses()">Edit Courses</button>
+				</div>
 			</div>
-			<br><br><br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br>
 		</div>
 	</body>
 </html>

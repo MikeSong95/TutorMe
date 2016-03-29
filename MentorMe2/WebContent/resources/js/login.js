@@ -24,8 +24,8 @@ function isValidLogin(email, password) {
 		success: function(success) {
 			if (success === "student") {
 				window.location.href="welcome.jsp";
-			} else if (success.equals("tutor")){
-				window.location.href="tutorProfile.jsp";
+			} else if (success === "tutor"){
+				window.location.href="tutorProfileLogin.jsp";
 			} else {
 				alert("The email or password provided is incorrect.");
 			}

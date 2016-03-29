@@ -50,7 +50,7 @@
 				<div class="col-sm-6 col-md-4">
 					<div class="transbox">
 						<br>
-						<p align="center">Search tutors by school, courses, availability, and more!</p>
+						<p align="center">Have tutors recommended to you based on your school, program, and courses!</p>
 						<br>
 					</div>
 				</div>
@@ -64,7 +64,7 @@
 				<div class="col-sm-6 col-md-4">
 					<div class="transbox">
 						<br>
-						<p align="center">Free, easy to use, and the most convenient way to find a tutor!</p>
+						<p align="center">Free to use, and the most convenient way to find the perfect tutor!</p>
 						<br>
 					</div>
 				</div>

@@ -25,7 +25,7 @@ public class Contact extends HttpServlet{
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.port", "587");
-      String to = "nick.r.feng@hotmail.com";
+      String to = "tutormeemails@gmail.com";
  
       // Sender's email ID needs to be mentioned
       String from = "mentormetest@outlook.com";
@@ -54,25 +54,15 @@ public class Contact extends HttpServlet{
          message.addRecipient(Message.RecipientType.TO,
                                   new InternetAddress(to));
          // Set Subject: header field
-         message.setSubject("Inqury from user: " + request.getParameter("userName") + "email: " +request.getParameter("email"));
+         message.setSubject("Inqury from USER: " + request.getParameter("userName") + " EMAIL: " +request.getParameter("email"));
          // Now set the actual message
          String content = request.getParameter("message");
          message.setText("Message: " +content);
          // Send message
          Transport.send(message);
-         String title = "Send Email";
-         String res = "Sent message successfully....";
-         String docType =
-         "<!doctype html public \"-//w3c//dtd html 4.0 " +
-         "transitional//en\">\n";
-         out.println(docType +
-         "<html>\n" +
-         "<head><title>" + title + "</title></head>\n" +
-         "<body bgcolor=\"#f0f0f0\">\n" +
-         "<h1 align=\"center\">" + title + "</h1>\n" +
-         "<p align=\"center\">" + res + "</p>\n" +
-         "<a href='/MentorMe2/'>Go to Home </a>" +
-         "</body></html>");
+         System.out.println("Sending email");
+         // Redirect to index page
+         response.sendRedirect("index.jsp");
       }catch (MessagingException mex) {
          mex.printStackTrace();
       }

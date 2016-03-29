@@ -141,10 +141,12 @@ function submit() {
 					url: "CoursesServlet",
 					data: data,
 					success: function(success) {
-						if (success === "success") {
+						if (success === "student") {
 							window.location.href="welcome.jsp";
+						} else if (success === "tutor") {
+							window.location.href="tutorProfileLogin.jsp";
 						} else {
-							alert("An error has occurred.")
+							alert("The email or password you have provided is incorrect.");
 						}
 					}
 				});

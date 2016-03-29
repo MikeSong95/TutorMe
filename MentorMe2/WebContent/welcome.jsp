@@ -67,7 +67,10 @@
        				<li class="active"><a href="welcome.jsp">Dashboard</a></li>
       			</ul>
       			<ul class="nav navbar-nav navbar-right">
-       				<li><a href="#"><%out.print(session.getAttribute("email"));%>'s Profile</a></li>
+       				<li><a href="index.jsp">Logout</a></li>
+      			</ul>
+      			<ul class="nav navbar-nav navbar-right">
+       				<li><a href="studentProfile.jsp"><%out.print(session.getAttribute("name"));%>'s Profile</a></li>
       			</ul>
 	     	</div>
 		</nav>

@@ -324,7 +324,7 @@ public class DatabaseControl
 			//if key exists
 			if (checkExistence(table, student.getEmail())){
 				String query = "UPDATE $tableName SET"
-						+ "COURSE_ONE=?, COURSE_TWO=?, COURSE_THREE=?,"
+						+ " COURSE_ONE=?, COURSE_TWO=?, COURSE_THREE=?,"
 						+ "COURSE_FOUR=?, FIRSTNAME=?, LASTNAME =?,"
 						+ "PASSWORD=?, PROGRAM=?, SCHOOL=?  WHERE EMAIL = ?";
 				PreparedStatement ps =con.prepareStatement(
@@ -375,7 +375,7 @@ public class DatabaseControl
 			//if key exists
 			if (checkExistence(table, tutor.getEmail())){
 				String query = "UPDATE $tableName SET"
-						+ "COURSE_ONE=?, COURSE_TWO=?, COURSE_THREE=?,"
+						+ " COURSE_ONE=?, COURSE_TWO=?, COURSE_THREE=?,"
 						+ "COURSE_FOUR=?, FIRSTNAME=?, LASTNAME =?,"
 						+ "PASSWORD=?, PROGRAMATTENDED=?, SCHOOLATTENDED=?, SCHOOL=?, DEGREE=?, PROGRAM=?  WHERE EMAIL = ?";
 				PreparedStatement ps =con.prepareStatement(

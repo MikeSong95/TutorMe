@@ -42,3 +42,11 @@ function tutorProfile(email) {
 		}
 	});
 }
+
+function editInfo() {
+	window.location.href="editTutorProfile.jsp";
+}
+
+function editCourses() {
+	window.location.href="courses.jsp";
+}

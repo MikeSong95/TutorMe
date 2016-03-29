@@ -25,7 +25,6 @@
 		<%@ page import="control.UserController, user.*" %>
 		<%  
 			String tutorEmail = (String) session.getAttribute("tutorEmail");
-			System.out.println("> Tutor email is: " + tutorEmail);
 			Tutor tutor = UserController.getInstance().getTutor(tutorEmail);
         %>
 		<!-- Background Image -->
@@ -36,26 +35,24 @@
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
  				<ul class="nav navbar-nav">
-       				<li><a href="welcome.jsp">Dashboard</a></li>
+       				<li class="active"><a href="tutorProfileLogin.jsp">Profile</a></li>
       			</ul>
       			<ul class="nav navbar-nav navbar-right">
        				<li><a href="index.jsp">Logout</a></li>
       			</ul>
-      			<ul class="nav navbar-nav navbar-right">
-       				<li><a href="#"><%out.print(session.getAttribute("name"));%>'s Profile</a></li>
-      			</ul>
-      			
 	     	</div>
 		</nav>
 		<div class="transbox fadein">
 			<h1 align="center"><%out.print(tutor.getFirst() + " " + tutor.getLast());%></h1>
 			<h2 align="center"><%out.print(tutor.getEmail()); %></h2>
 			<div class="col-sm-6">
-				<h3> Program Attended:</h3> <h4><%out.print(tutor.getProgram());%></h4>
-				<h3> Degree:</h3> <h4> <%out.print(tutor.getDegree());%></h4>
+				<h3> Program Attended: </h3><h4> <%out.print(tutor.getProgramAttended()); %></h4>
+				<h3> Degree:</h3> <h4> <%out.print(tutor.getDegree()); %></h4>
 				<h3> School Attended: </h3> <h4><%out.print(tutor.getSchoolAttended()); %></h4>
+				<div align="center">
+					<button onclick="editInfo()">Edit Info</button>
+				</div>
 			</div>
-			
 			<div class="col-sm-6">
 				<h3> School Tutoring At:</h3> <h4><%out.print(tutor.getSchool()); %></h4>
 				<h3> Program Tutoring: </h3><h4><%out.print(tutor.getProgram()); %></h4>
@@ -67,8 +64,11 @@
 						<%  } 
 						}
 						%>
+				<div align="center">
+					<button onclick="editCourses()">Edit Courses</button>
+				</div>
 			</div>
-			<br><br><br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br>
 		</div>
 	</body>
 </html>

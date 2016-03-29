@@ -74,7 +74,7 @@ p {
 	color: white;
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -1px black;
 }
-a {
+a, input {
 	font-family: "Times New Roman", Times, serif;
 }
 
